@@ -67,11 +67,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 'abc@e.com', @user.reload.email
   end
 
-  test 'password be present,not blank' do
-    @user.password = @user.password_confirmation = ' ' * 10
-    assert_not @user.valid?
-  end
-
   test 'password must be longer than 6' do
     @user.password = @user.password_confirmation = '1' * 5
     assert_not @user.valid?

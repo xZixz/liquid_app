@@ -4,3 +4,16 @@ me:
   name: shawn
   email: shawn@kien.le
   password_digest: <%= User.digest('123456') %>
+  admin: true
+
+thanh:
+  name: thanh
+  email: thanh@dai.dam
+  password_digest: <%= User.digest('qwerty') %>
+
+<% 30.times do |i|%>
+user_<%= i %>:
+  name: User #<%= i %>
+  email: user_<%= i %>@sample.com
+  password_digest: <%= User.digest('123456') %>
+<% end %>

@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     if @user&.authenticate(session_params[:password])
       log_in @user
       params[:session][:remember_me] == '1' ? remember(@user) : forget(@user)
-      redirect_to @user
+      redirect_back_or @user
     else
       flash.now[:danger] = 'Not a valid user!'
       render :new
@@ -23,6 +23,6 @@ class SessionsController < ApplicationController
 
   def session_params
     params.require(:session)
-          .permit(:email, :password)
+          .permit(:email, :password, :remember_me)
   end
 end
