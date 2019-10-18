@@ -9,14 +9,15 @@
 
 User.create!(name: 'Rubick', email: 'superman@earth.com',
              password: '123456', 'password_confirmation': '123456',
-             admin: true)
+             admin: true, activated: true, activated_at: Time.zone.now)
 
 99.times do |num|
   name = Faker::Games::Dota.hero.downcase.gsub(' ', '_') + ".#{num}"
   email = "#{name}@valve.com"
   p email
   User.create!(name: name, email: email,
-               password: '123456', 'password_confirmation': '123456')
+               password: '123456', 'password_confirmation': '123456',
+               activated: true, activated_at: Time.zone.now)
 end
 
 # Other data rake tasks

@@ -73,6 +73,6 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'authenticated with nill remember_token should return false' do
-    assert_not @user.authenticated? nil
+    assert_not @user.authenticated? :remember, nil
   end
 end

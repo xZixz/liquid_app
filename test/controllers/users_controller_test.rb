@@ -74,6 +74,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_path
   end
 
+  test 'should redirect to root when account is not activated' do
+    log_in_as @user
+    not_activated_user = users(:not_activated)
+    get user_path(not_activated_user)
+    assert_redirected_to root_path
+  end
+
   test 'successfully destroy user' do
     log_in_as @user
     assert_difference 'User.count', -1 do
