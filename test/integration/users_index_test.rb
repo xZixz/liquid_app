@@ -13,7 +13,7 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
 
     assert_select '.pagination'
     assert_select 'ul.users li', 30
-    User.paginate(page: 1).each do |user|
+    User.where(activated: true).paginate(page: 1).each do |user|
       assert_select 'a[href=?]', user_path(user), text: user.name
       unless user == @user
         assert_select 'a[href=?]', user_path(user), text: 'Delete'
