@@ -22,3 +22,10 @@ end
 
 # Other data rake tasks
 Rake::Task['data:seed_dota_heroes'].invoke
+
+User.order(:created_at).take(6).each do |user|
+  50.times do
+    content = Faker::Lorem.sentence(word_count: rand(10))
+    user.microposts.create!(content: content)
+  end
+end

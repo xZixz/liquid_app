@@ -13,6 +13,8 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum: 6 }, allow_blank: true
 
+  has_many :microposts, dependent: :destroy
+
   has_secure_password
 
   def self.digest(string)
@@ -71,5 +73,9 @@ class User < ApplicationRecord
 
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
+  end
+
+  def feed
+    Micropost.where(user_id: id)
   end
 end
