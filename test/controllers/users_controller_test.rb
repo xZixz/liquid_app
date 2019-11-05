@@ -87,4 +87,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       delete user_path(@another_one)
     end
   end
+
+  test 'should redirect if not logged in when access following' do
+    get following_user_path(@user)
+    assert_redirected_to login_path
+  end
+
+  test 'should redirect if not logged in when access followers' do
+    get followers_user_path(@user)
+    assert_redirected_to login_path
+  end
 end

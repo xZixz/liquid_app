@@ -6,7 +6,7 @@ cat:
   user: me
 
 dog:
-  content: "My Dog"
+  content: "My Dog http://youtu.be/PKffm2uI4dk @ !"
   created_at: <%= 20.minutes.ago %>
   user: me
 
@@ -19,6 +19,11 @@ thanh_post:
   content: "Dong Ram"
   created_at: <%= 5.minutes.ago %>
   user: thanh
+
+user_7_post:
+  content: "This is user seven"
+  created_at: <%= 15.minutes.ago %>
+  user: user_7
 
 <% 30.times do |n| %>
 micropost_<%= n %>:

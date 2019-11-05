@@ -14,6 +14,14 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }, allow_blank: true
 
   has_many :microposts, dependent: :destroy
+  has_many :active_relationships, class_name: 'Relationship',
+                                  foreign_key: 'follower_id',
+                                  dependent: :destroy
+  has_many :passive_relationships, class_name: 'Relationship',
+                                   foreign_key: 'followed_id',
+                                   dependent: :destroy
+  has_many :following, through: :active_relationships, source: :followed
+  has_many :followers, through: :passive_relationships
 
   has_secure_password
 
@@ -76,6 +84,19 @@ class User < ApplicationRecord
   end
 
   def feed
-    Micropost.where(user_id: id)
+    followed_ids = "SELECT followed_id FROM relationships WHERE follower_id = #{id}"
+    Micropost.where("user_id IN (#{followed_ids}) OR user_id = #{id}")
+  end
+
+  def following?(user)
+    following.include? user
+  end
+
+  def follow(user)
+    active_relationships.create(followed: user)
+  end
+
+  def unfollow(user)
+    active_relationships.find_by(followed: user)&.destroy
   end
 end

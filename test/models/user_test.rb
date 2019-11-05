@@ -33,7 +33,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'some valid emails' do
-    valid_emails = %w[user@email.com USER@foo.COM a_us-ER@foo.bar.org alice+pop@mail.com]
+    valid_emails = %w[user@email.com USER@foo.COM
+                      a_us-ER@foo.bar.org alice+pop@mail.com]
     valid_emails.each do |valid_email|
       @user.email = valid_email
       assert @user.valid?, "#{valid_email.inspect} should be valid"
@@ -41,7 +42,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'some invalid emails' do
-    invalid_emails = %w[user@example,com user_at_foo.org user.name@example. foo@bar+baz.com foo@bar..com]
+    invalid_emails = %w[user@example,com user_at_foo.org
+                        user.name@example. foo@bar+baz.com foo@bar..com]
     invalid_emails.each do |invalid_email|
       @user.email = invalid_email
       assert_not @user.valid?, "#{invalid_email.inspect} should be invalid"
@@ -81,6 +83,32 @@ class UserTest < ActiveSupport::TestCase
     @user.microposts.create(content: 'blah')
     assert_difference 'Micropost.count', -1 do
       @user.destroy
+    end
+  end
+
+  test 'should follow unfollow and following' do
+    me = users(:me)
+    user7 = users(:user_7)
+    assert_not me.following? user7
+    me.follow user7
+    assert me.following? user7
+    assert user7.followers.include?(me)
+    me.unfollow user7
+    assert_not me.following? user7
+  end
+
+  test 'feed should have the right posts' do
+    me = users(:me)
+    user7 = users(:user_7)
+    thanh = users(:thanh)
+    thanh.microposts.each do |mc|
+      assert me.feed.include? mc
+    end
+    user7.microposts.each do |mc|
+      assert_not me.feed.include? mc
+    end
+    me.microposts.each do |mc|
+      assert me.feed.includes mc
     end
   end
 end

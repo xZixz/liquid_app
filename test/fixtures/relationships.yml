@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+#
+
+one:
+  followed: thanh
+  follower: me
+
+too:
+  followed: me
+  follower: thanh
+
+tree:
+  followed: me
+  follower: user_1
+
+for:
+  followed: me
+  follower: user_2
+
+fine:
+  followed: me
+  follower: user_3
+
